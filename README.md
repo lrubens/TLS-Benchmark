@@ -1,4 +1,4 @@
-# Client/Server docker-compose example
+# TLS Benchmark
 
 This project was realized as part of my article "A beginner's guide to Docker - how to create a client/server side with Docker-Compose".
 This project is an example of a client/server with docker-compose.
@@ -18,7 +18,3 @@ $ docker-compose build
 ```
 $ docker-compose up
 ```
-
-## Author
-
-- **Gaël THOMAS** - [gael-thomas](https://github.com/gael-thomas)
