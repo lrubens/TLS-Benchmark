@@ -1,16 +1,30 @@
 #!/usr/bin/env python3
 
 # Import of python system libraries.
-# These libraries will be used to create the web server.
-# You don't have to install anything special, these libraries are installed with Python.
-import http.server
-import socketserver
+import os
 
-# This variable is going to handle the requests of our client on the server.
-handler = http.server.SimpleHTTPRequestHandler
+def generate_ss_cert():
+    """
+	This function creates a self signed certificate and creates a pem file which is used for the s_server function.
+	"""
+    sig_alg = "rsa"
+    # Create Self Signed Certificate and key
+    print("\n[ Creating Self Signed Certificate <{}> ]".format(sig_alg))
+    os.system("apps/openssl req -x509 -new -newkey {0} -keyout {0}.key -out {0}.crt -nodes -subj \"/C=US/ST=MA/L=Cambridge/O=Draper/OU=Research/CN=server\" -config 'apps/openssl.cnf' -days 365".format(sig_alg))
 
-# Here we define that we want to start the server on port 1234. 
-# Try to remember this information it will be very useful to us later with docker-compose.
-with socketserver.TCPServer(("", 1234), handler) as httpd:
-    # This instruction will keep the server running, waiting for requests from the client.
-    httpd.serve_forever()
+def run_server():
+    """
+	This function opens a SSL/TLS server on port 4444 with provided ciphers.
+    """
+    sig_alg = "rsa"
+    print("\n[ Setting up SSL/TLS Server <{}> ... Listening on port 4433 ]".format(sig_alg))
+    os.system("apps/openssl s_server -cert {0}.crt -key {0}.key -HTTP -tls1_3 -accept 4433".format(sig_alg))
+
+def main():
+    cert_path = "rsa.crt"
+    if not os.path.isfile(cert_path):
+        generate_ss_cert()
+    run_server()
+
+if __name__ == "__main__":
+    main()

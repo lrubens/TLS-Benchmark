@@ -1,23 +1,41 @@
 #!/usr/bin/env python3
 
 # Import of python system library.
-# This library is used to download the 'index.html' from server.
-# You don't have to install anything special, this library is installed with Python.
-import urllib.request
+import os
+import subprocess
+import shutil
+import time
+try:
+	from scapy.all import *
+except:
+	os.system('pip3 install scapy')
 
-# This variable contain the request on 'http://localhost:1234/'.
-# You must wondering what is 'http://localhost:1234'?
-# localhost: This means that the server is local.
-# 1234: Remember we define 1234 as the server port.
-fp = urllib.request.urlopen("http://localhost:1234/")
+num_attempts = 50
 
-# 'encodedContent' correspond to the server response encoded ('index.html').
-# 'decodedContent' correspond to the server response decoded (what we want to display).
-encodedContent = fp.read()
-decodedContent = encodedContent.decode("utf8")
 
-# Display the server file: 'index.html'.
-print(decodedContent)
+def run_client():
+    try:
+        os.mkdir('../openssl/results')
+    except:
+        pass
+    cipher_lst = ["round5_r5n1_1kem_0d", "round5_r5n1_3kem_0d", "round5_r5n1_5kem_0d", "round5_r5nd_1kem_0d", "round5_r5nd_3kem_0d", "round5_r5nd_3kem_5d", "round5_r5nd_5kem_0d", "round5_r5nd_5kem_5d"]
+    for cipher in cipher_lst:
+        open('../openssl/results/{}.pcap'.format(cipher), 'a').close()
+        tcpdump = subprocess.Popen(['tcpdump', '--time-stamp-precision', 'nano', '-i', 'eth0', '-w', '../openssl/results/{}.pcap'.format(cipher)], stdout=subprocess.PIPE)
+        time.sleep(2)
+        print("Running measurements...")
+        for i in range(num_attempts):
+            print("Attempt # {}".format(i))
+            os.system('echo hi | ../openssl/apps/openssl s_client -connect server:4433 -curves {} -tls1_3'.format(cipher))
+        #os.system("tshark -F pcap -r " + cipher + ".pcap"  + " -w " + cipher + ".pcap")
+        time.sleep(1)
+        tcpdump.terminate()
 
-# Close the server connection.
-fp.close()
+def main():
+    run_client()
+
+if __name__ == "__main__":
+    main()
+
+        
+
