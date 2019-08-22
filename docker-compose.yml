@@ -1,28 +1,18 @@
-# A docker-compose must always start by the version tag.
-# We use "3" because it's the last version at this time.
 version: "3.3"
 services:
   server:
     image: tls_server
     build: server/
-    #networks:
-    # front:
-    #   ipv4_address: 172.16.238.10
-    #network_mode: host
+    # Run TLS server
     command: python3 server.py
-    #restart: always
     ports:
       - 4433:4433
 
   client:
     image: tls_client
     build: client/
-    #network_mode: host
-    #networks:
-    # front:
-    #   ipv4_address: 172.16.238.11
-    command: python3 client.py
-    #restart: always
+    # Run TLS clients with different parameter sets and retrieve resulting charts
+    command: python3 client.py && python3 parser.py
     volumes:
             - $PWD/results:/client/openssl/results
             - $PWD/scripts:/client/scripts
