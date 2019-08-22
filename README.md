@@ -1,9 +1,5 @@
 # TLS Benchmark
 
-## How to run ?
-
-The project launch is in two parts: build and start.
-
 ### Build
 
 ```
@@ -14,4 +10,10 @@ $ docker-compose build
 
 ```
 $ docker-compose up
+```
+
+### Get results
+
+```
+Charts should be in top level directory
 ```
