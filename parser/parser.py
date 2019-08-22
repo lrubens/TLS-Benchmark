@@ -41,6 +41,6 @@ for ciphers in list_list:
     plt.xlabel("milliseconds")
     # plt.xticks(rotation=90)
     plt.tight_layout()
-    plt.savefig(list_list1[count] + ".png")
+    plt.savefig(list_list1[count] + "1.png")
     count += 1
     plt.clf()
