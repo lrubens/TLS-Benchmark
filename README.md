@@ -1,8 +1,4 @@
-# TLS Benchmark
-
-## How to run ?
-
-The project launch is in two parts: build and start.
+# TLS Benchmark For Post-Quantum Algorithm Round5
 
 ### Build
 
@@ -14,4 +10,10 @@ $ docker-compose build
 
 ```
 $ docker-compose up
+```
+
+### Get results
+
+```
+Charts should be in top level directory
 ```
