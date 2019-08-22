@@ -37,7 +37,7 @@ for ciphers in list_list:
             avg = sum/len(synList)
             avgList.append(avg * 1000)
         print(cipher + ': ' + str(avg))
-    plt.barh(list_list1[count], avgList, align='center')
+    plt.barh(list_list[count], avgList, align='center')
     plt.xlabel("milliseconds")
     # plt.xticks(rotation=90)
     plt.tight_layout()
