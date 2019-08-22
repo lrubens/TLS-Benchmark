@@ -16,7 +16,7 @@ RUN apt-get update && \
   wget \
   xsltproc \
   tcpdump \
-  vim \
+  #vim \
   python3-pip
 
 # Setup directories
@@ -32,7 +32,7 @@ VOLUME ["/client/openssl/results"]
 WORKDIR /client/
 RUN git clone https://github.com/lrubens/liboqs.git
 VOLUME ["/client/scripts"]
-ADD client.py /client/scripts
+#ADD client.py /client/scripts
 
 # Install liboqs
 WORKDIR /client/liboqs
